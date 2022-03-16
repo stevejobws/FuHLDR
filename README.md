@@ -18,7 +18,7 @@ To predict drug-disease associations by FuHLDR, run
 
 ### Options
 See help for the other available options to use with *FuHLDR*
-  - python FuHLDR.py --help
+  - python main.py --help
 
 ### Requirements
 FuHLDR is tested to work under Python 3.6.2  
