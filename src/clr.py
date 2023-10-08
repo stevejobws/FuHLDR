@@ -1,9 +1,13 @@
 import numpy as np
 import pandas as pd
+import torch
 def load_file_as_Adj_matrix(filename):
     import scipy.sparse as sp
     AlledgeTrain = pd.read_csv(filename,header=None)
-    relation_matrix = np.zeros((len(AllNode),len(AllNode)))
+    print(max(AlledgeTrain[1]))
+    sum_AllNode = max(max(AlledgeTrain[0]),max(AlledgeTrain[1]))
+    print(sum_AllNode)
+    relation_matrix = np.zeros((sum_AllNode+1,sum_AllNode+1))
     for i, j in np.array(AlledgeTrain):
         lnc, mi = int(i), int(j)
         relation_matrix[lnc, mi] = 1

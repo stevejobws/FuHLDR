@@ -1,16 +1,19 @@
-import clr
-import utils
-import gnn
-
+from clr import load_file_as_Adj_matrix, load_data
+from utils import GraphConvolution
+from gnn import GCN
+import pandas as pd
+import numpy as np
 
 def train(options):
+    print(options.dataset)
     if options.dataset == 1:
         dataset = 'B-Dataset'
     else:
         dataset = 'F-Dataset'
-    AllNode = pd.read_csv('./data/'+dataset+'/Allnode.csv', header=0,names=['id','name'])
-    Adj = load_file_as_Adj_matrix('./data/'+dataset+'/Alledge.csv')
-    features = pd.read_csv('./data/'+dataset+'/AllNodeAttribute.csv', header = None)
+    
+    AllNode = pd.read_csv('../data/'+dataset+'/Allnode.csv', header=0,names=['id','name'])
+    Adj = load_file_as_Adj_matrix('../data/'+dataset+'/Alledge.csv')
+    features = pd.read_csv('../data/'+dataset+'/AllNodeAttribute.csv', header = None)
     features = features.iloc[:,1:]
     adj, train_features = load_data(Adj,features)
 
@@ -24,5 +27,5 @@ def train(options):
     model.train()
     output, Emdebding_train = model(train_features, adj)
     Emdebding_GCN = pd.DataFrame(Emdebding_train.detach().numpy())
-    Emdebding_GCN.to_csv('./data/'+dataset+'/Emdebding_GCN.csv', header=None,index=False)
+    Emdebding_GCN.to_csv('../data/'+dataset+'/Emdebding_GCN.csv', header=None,index=False)
 

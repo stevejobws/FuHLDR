@@ -1,5 +1,10 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from utils import GraphConvolution
+from torch.nn.parameter import Parameter
+from torch.nn.modules.module import Module
+
 class GCN(nn.Module):
     def __init__(self, nfeat, nhid, nclass, dropout):
         super(GCN, self).__init__()  
