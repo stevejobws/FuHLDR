@@ -2,6 +2,27 @@ import scipy.sparse as sp
 import pandas as pd
 import numpy as np
 
+def Train_Test_Sample(options):
+    if options.dataset == 1:
+        dataset = 'B-Dataset'
+    else:
+        dataset = 'F-Dataset'
+    print(dataset)
+    DDAsNum = pd.read_csv('./data/'+dataset+'/DrDiNum.csv', header=None)
+    Nindex = pd.read_csv('../data/'+dataset+'/RandomList.csv',header=None)
+    for i in range(len(Nindex)):
+        kk = []
+        for j in range(10):
+            if j !=i:
+                kk.append(j)
+        index = np.hstack([np.array(Nindex)[kk[0]],np.array(Nindex)[kk[1]],np.array(Nindex)[kk[2]],np.array(Nindex)[kk[3]],np.array(Nindex)[kk[4]],
+                           np.array(Nindex)[kk[5]],np.array(Nindex)[kk[6]],np.array(Nindex)[kk[7]],np.array(Nindex)[kk[8]]])
+        DDAs_train= pd.DataFrame(np.array(DDAsNum)[index])
+        DDAs_train.to_csv('../data/'+dataset+'/train'+str(i)+'.csv', header=None,index=False)
+        DDAs_train = pd.DataFrame(np.array(DDAsNum)[np.array(Nindex)[i]])
+        DDAs_train.to_csv('../data/'+dataset+'/test'+str(i)+'.csv', header=None,index=False)
+        print(i)
+        
 def main(options):
 
     if options.dataset == 1:
@@ -19,6 +40,7 @@ def main(options):
     Embedding = Embedding.sort_values(0,ascending=True).dropna(axis=1) 
     Embedding.set_index([0], inplace=True)
     Negative[2] = Negative.apply(lambda x: 0 if x[0] < 0 else 0, axis=1)
+    Train_Test_Sample(options)
     for i in range(10):
         train_data = pd.read_csv('../data/'+dataset+'/train'+str(i)+'.csv',header=None)
         train_data[2] = train_data.apply(lambda x: 1 if x[0] < 0 else 1, axis=1)
